@@ -1,4 +1,4 @@
-import { Face as DetectedFaceType } from "./FaceDetectionService"; // Asumiendo que Face está exportada allí
+import { Face as DetectedFaceType } from "./FaceDetectionService"; // Ajustar si FaceDetectionService también se mueve
 
 // Leer variables de entorno. EXPO_PUBLIC_ prefijo es necesario para que sean accesibles en el cliente con Expo.
 const AI_API_KEY = process.env.EXPO_PUBLIC_AI_TRANSFORM_API_KEY;
@@ -111,8 +111,7 @@ export const transformImage = async (
   }
 
   // --- INICIO LÓGICA DE CACHÉ (SIMULADA Y MUY BÁSICA) ---
-  // const cacheKey = `${imageUri}-${filterId}`; // Una clave de caché simple podría basarse en la URI y el filtro.
-  //                                          // Para imágenes reales, se necesitaría un hash del contenido de la imagen.
+  // const cacheKey = `${imageUri}-${filterId}`;
   // if (imageTransformationCache.has(cacheKey)) {
   //   console.log("Devolviendo resultado de transformación desde caché simulada para:", cacheKey);
   //   return { ...imageTransformationCache.get(cacheKey)!, fromCache: true };
@@ -121,61 +120,14 @@ export const transformImage = async (
 
   // --- INICIO DE LÓGICA DE LLAMADA A API REAL (A IMPLEMENTAR) ---
   // console.log(`Iniciando transformación con filtro: ${filter.name}, prompt: ${filter.promptHint}`);
-  //
-  // // 1. Preparación de la imagen (ej. a base64 si la API lo requiere)
-  // // let imagePayload = imageUri; // Si la API acepta URL directa y la URI es accesible públicamente
-  // // try {
-  // //   if (AI_API_ENDPOINT.includes('requires_base64_upload')) { // Placeholder para lógica de API específica
-  // //      imagePayload = await FileSystem.readAsStringAsync(imageUri, { encoding: FileSystem.EncodingType.Base64 });
-  // //   }
-  // // } catch (e) {
-  // //   console.error("Error al convertir imagen a base64:", e);
-  // //   return { error: "Error al preparar la imagen para la API.", errorType: 'ApiError' };
-  // // }
-  //
-  // // 2. Construcción del Payload para la API
-  // // El payload exacto dependerá enormemente de la API de IA seleccionada (OpenAI, Stability, etc.)
-  // const requestPayload: any = {
-  //   prompt: filter.promptHint, // El prompt es fundamental
-  //   // image: imagePayload, // Imagen original (URI o base64)
-  //   // n: 1, // Número de imágenes a generar
-  //   // size: "1024x1024", // Tamaño de la imagen de salida deseado
-  //   // ...otros parámetros basados en filter.apiSpecificParams o la API...
-  //   // Por ejemplo, para inpainting/edición, podrías necesitar enviar una máscara basada en `face.bounds`
-  // };
-  //
-  // // Si usas OpenAI DALL-E para edición (inpainting/outpainting):
-  // // Tendrías que generar una máscara PNG a partir de face.bounds y el tamaño de la imagen.
-  // // El `imagePayload` sería la imagen original, `mask` la máscara generada.
-  // // requestPayload.mask = generatedMaskBase64;
-  //
-  // // 3. Realizar la llamada fetch
+  // const requestPayload: any = { /* ... construir payload ... */ };
   // try {
-  //   const response = await fetch(AI_API_ENDPOINT, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Authorization': `Bearer ${AI_API_KEY}`,
-  //       'Content-Type': 'application/json', // Ajustar si la API espera FormData
-  //     },
-  //     body: JSON.stringify(requestPayload),
-  //   });
-  //
-  //   if (!response.ok) {
-  //     // ... (manejo de error de respuesta como estaba antes) ...
-  //     let errorMsg = `Error de API: ${response.status}`;
-  //     try { const errorData = await response.json(); errorMsg = errorData.error?.message || errorData.message || errorMsg; } catch (e) {}
-  //     return { error: errorMsg, errorType: 'ApiError' };
-  //   }
-  //
+  //   const response = await fetch(AI_API_ENDPOINT, { /* ... configuración fetch ... */ });
+  //   if (!response.ok) { /* ... manejo de error ... */ }
   //   const resultData = await response.json();
-  //   // const transformedUri = resultData.data[0].url; // Ejemplo para OpenAI DALL-E Image Generation
-  //   // if (!transformedUri) return { error: "La API no devolvió una imagen transformada.", errorType: 'ApiError' };
-  //   // return { transformedImageUri: transformedUri };
-  //
-  // } catch (e: any) {
-  //   // ... (manejo de error de red como estaba antes) ...
-  //   return { error: `Error de red: ${e.message}`, errorType: 'NetworkError' };
-  // }
+  //   /* ... extraer URI transformada ... */
+  //   return { transformedImageUri: transformedUri };
+  // } catch (e: any) { /* ... manejo de error de red ... */ }
   // --- FIN DE LÓGICA DE LLAMADA A API REAL ---
 
   // Simulación por ahora:
@@ -185,18 +137,17 @@ export const transformImage = async (
       `(SIMULADO) Transformando con filtro: ${filter.name}, prompt: ${filter.promptHint}`
     );
     setTimeout(() => {
-      const success = Math.random() > 0.1; // Simular 90% de éxito para probar errores también
+      const success = Math.random() > 0.1;
       setIsTransforming(false);
       if (success) {
         const result: TransformationResult = {
           transformedImageUri: imageUri + `?transformed=${filter.id}`,
         };
-        // imageTransformationCache.set(cacheKey, result); // Guardar en caché simulada
+        // imageTransformationCache.set(cacheKey, result);
         console.log("(SIMULADO) Transformación exitosa.");
         resolve(result);
       } else {
         console.error("(SIMULADO) Error en la transformación IA.");
-        // Simular que no hay fallback o que el fallback también falló
         resolve({
           error:
             "Error simulado al transformar la imagen (sin fallback exitoso).",
@@ -204,12 +155,10 @@ export const transformImage = async (
           usedFallback: false,
         });
       }
-    }, 2000); // Reducido el delay para pruebas más rápidas
+    }, 2000);
   });
 };
 
-// Helper para gestionar el estado de carga globalmente (esto es una simplificación)
-// En una app real, usarías un store de estado (Zustand, Redux, Context API)
 let _isTransformingCallback: (isTransforming: boolean) => void = () => {};
 export const setTransformingStatusCallback = (
   callback: (isTransforming: boolean) => void

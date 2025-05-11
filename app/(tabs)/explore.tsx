@@ -17,23 +17,23 @@ import {
   View,
 } from "react-native";
 
+import { getMediaLibraryPermissionAsync } from "@/app/utils/_permissions";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { IconSymbol } from "@/components/ui/IconSymbol";
 import {
   Filter as AiFilter,
   getAvailableFilters,
   setTransformingStatusCallback,
   transformImage,
-} from "@/app/services/AITransformationService";
+} from "@/src/services/AITransformationService";
 import {
   Face as DetectedFaceType,
   detectFacesInImage,
   getValidatedMainFace,
-} from "@/app/services/FaceDetectionService";
-import { saveImageToGallery } from "@/app/services/ImageStorageService";
-import { shareImageAsync } from "@/app/services/SocialSharingService";
-import { getMediaLibraryPermissionAsync } from "@/app/utils/_permissions";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { IconSymbol } from "@/components/ui/IconSymbol";
+} from "@/src/services/FaceDetectionService";
+import { saveImageToGallery } from "@/src/services/ImageStorageService";
+import { shareImageAsync } from "@/src/services/SocialSharingService";
 
 const MAX_IMAGE_DIMENSION = 1080;
 
