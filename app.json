@@ -9,14 +9,24 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Esta app necesita acceso a tu cámara para tomar fotos y aplicar filtros divertidos.",
+        "NSPhotoLibraryUsageDescription": "Esta app necesita acceso a tu galería para que puedas seleccionar fotos y aplicarles filtros.",
+        "NSPhotoLibraryAddUsageDescription": "Esta app necesita acceso para guardar tus creaciones transformadas en tu galería."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +43,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

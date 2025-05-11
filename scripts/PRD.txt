@@ -1,0 +1,121 @@
+# Overview
+WhatTheFace es una aplicación móvil que utiliza Inteligencia Artificial para escanear el rostro del usuario y generar una máscara digital absurda y exagerada que refleje su "estado de ánimo opuesto" o una emoción aleatoria. El objetivo del MVP es validar la mecánica central de transformación facial y el atractivo viral con un conjunto limitado de filtros y funcionalidades básicas de compartición. Resuelve el aburrimiento y la necesidad de contenido divertido y fácil de compartir en redes sociales. Está dirigido a usuarios jóvenes y activos en plataformas como TikTok e Instagram.
+
+# Core Features
+## MVP Features:
+
+1.  **Captura de Imagen y Detección Facial:**
+    *   **Qué hace:** Permite al usuario tomar una selfie utilizando la cámara frontal del dispositivo o seleccionar una foto existente de su galería. La app detecta automáticamente el rostro en la imagen.
+    *   **Por qué es importante:** Es el primer paso fundamental para que el usuario interactúe con la app y proporcione la imagen base para la transformación.
+    *   **Cómo funciona (alto nivel):** Integración con la API de la cámara del dispositivo. Uso de una librería de detección facial (e.g., OpenCV o una integrada en la API de IA seleccionada) para identificar las coordenadas del rostro.
+
+2.  **Motor de Transformación IA Básico (Filtros Iniciales Limitados):**
+    *   **Qué hace:** Aplica uno de un conjunto predefinido y limitado (ej. 3-5 filtros iniciales) de transformaciones de IA al rostro detectado. Estos filtros iniciales se enfocarán en transformaciones simples pero llamativas (ej. "cara sonriente exagerada sobre cara seria", "ojos de corazón", "un filtro animal simple").
+    *   **Por qué es importante:** Es el núcleo de la propuesta de valor de la app: la transformación divertida y sorprendente del rostro.
+    *   **Cómo funciona (alto nivel):** La imagen con el rostro detectado se envía a una API de IA de generación/manipulación de imágenes (ej. DeepArt, DALL-E API, Stable Diffusion con ControlNet). La API procesa la imagen aplicando el filtro seleccionado y devuelve la imagen transformada.
+
+3.  **Visualización y Guardado Básico:**
+    *   **Qué hace:** Muestra al usuario la imagen transformada en la pantalla de la app. Ofrece un botón para guardar la imagen resultante en la galería del dispositivo del usuario.
+    *   **Por qué es importante:** Permite al usuario ver el resultado de la transformación y conservarlo.
+    *   **Cómo funciona (alto nivel):** La imagen devuelta por la API de IA se muestra en un componente de imagen en la UI. Se utiliza la API del sistema operativo para solicitar permisos y guardar la imagen en el almacenamiento local.
+
+4.  **Compartir Básico en Redes Sociales (sin registro):**
+    *   **Qué hace:** Proporciona botones para compartir la imagen transformada directamente en las principales plataformas de redes sociales (ej. Instagram Stories, TikTok, WhatsApp). No se requerirá registro de usuario para esta funcionalidad en el MVP.
+    *   **Por qué es importante:** Facilita la viralidad, que es un objetivo clave de la app. Reduce la fricción al no requerir registro.
+    *   **Cómo funciona (alto nivel):** Uso de las SDKs de compartición nativas de iOS y Android o las APIs de intención de compartición para enviar la imagen a la app de red social seleccionada.
+
+# User Experience
+## MVP User Journey:
+1.  El usuario abre la app WhatTheFace.
+2.  Se le presenta una vista de cámara para tomar una selfie o un botón para seleccionar una foto de la galería.
+3.  Una vez la imagen es capturada/seleccionada, la app detecta el rostro.
+4.  Se muestran opciones simples para seleccionar uno de los filtros IA básicos disponibles para el MVP.
+5.  El usuario selecciona un filtro.
+6.  La app procesa la imagen y muestra el resultado (la cara transformada).
+7.  El usuario ve la imagen transformada y tiene opciones para:
+    *   Guardarla en su dispositivo.
+    *   Compartirla en redes sociales.
+    *   Volver a empezar para probar otro filtro u otra foto.
+
+## UI/UX Considerations (MVP):
+*   Interfaz extremadamente simple e intuitiva.
+*   Procesamiento rápido y feedback visual durante la carga/transformación.
+*   Botones grandes y claros para las acciones principales (capturar, seleccionar filtro, guardar, compartir).
+
+# Technical Architecture
+## MVP Components:
+*   **Aplicación Móvil Frontend:** (React Native/Flutter para desarrollo rápido cross-platform, o Nativo si se prefiere).
+    *   Módulo de cámara.
+    *   Módulo de selección de galería.
+    *   UI para visualización de filtros y resultados.
+    *   Integración con API de IA.
+    *   Módulo de guardado y compartición.
+*   **API de IA Externa:** (Ej. DeepArt, FaceApp API, DALL-E, Stable Diffusion).
+    *   Punto final para el reconocimiento facial (si no se hace en cliente).
+    *   Punto final para la generación/transformación de imágenes.
+*   **No se requiere backend dedicado para el MVP** si las funciones como "desbloquear filtros por compartir" se simplifican o se posponen.
+
+## Data Models (MVP):
+*   No se almacenarán datos de usuario en un backend para el MVP. Las imágenes se procesan y se devuelven al cliente.
+
+## APIs and Integrations (MVP):
+*   API de cámara del dispositivo.
+*   API de galería/fotos del dispositivo.
+*   API de IA seleccionada (la elección es crítica).
+*   APIs de compartición de redes sociales (Intents/SDKs).
+
+## Infrastructure Requirements (MVP):
+*   Dependencia de la infraestructura y SLAs de la API de IA seleccionada.
+*   Plataformas de distribución de apps (App Store, Google Play).
+
+# Development Roadmap
+## MVP Requirements:
+1.  Implementar captura de imagen desde cámara y galería.
+2.  Integrar detección facial básica.
+3.  Integrar API de IA para 3-5 filtros de transformación facial simples y predefinidos.
+4.  Desarrollar UI para selección de filtros y visualización de resultados.
+5.  Implementar funcionalidad de guardado de imagen en el dispositivo.
+6.  Implementar funcionalidad de compartición básica en 2-3 redes sociales clave.
+7.  Diseño de UI/UX simple y atractivo para el MVP.
+8.  Política de privacidad básica.
+
+## Future Enhancements (Post-MVP, No detallar aquí):
+*   Más filtros, filtros aleatorios, "estado de ánimo opuesto".
+*   Frases cómicas automáticas.
+*   Retos virales con hashtags.
+*   Desbloqueo de filtros por compartir.
+*   Personalización (texto, combinación de rostros).
+*   Monetización (publicidad, filtros premium, remover marca de agua).
+*   Modo "Predicción del Futuro".
+*   Tablero de memes.
+
+# Logical Dependency Chain (MVP)
+1.  **Setup del Proyecto Móvil:** Entorno de desarrollo, librerías base.
+2.  **Captura de Imagen:** Implementar acceso a cámara y galería.
+3.  **Detección Facial:** Integrar librería o funcionalidad de API para detectar rostros.
+4.  **Integración API de IA (Núcleo):** Conectar con la API de IA elegida. Probar un filtro simple end-to-end (subir imagen, aplicar filtro, recibir resultado). Esta es la dependencia más crítica.
+5.  **UI de Selección de Filtros y Visualización:** Mostrar los filtros disponibles y el resultado de la transformación.
+6.  **Funcionalidad de Guardado:** Permitir guardar la imagen localmente.
+7.  **Funcionalidad de Compartición:** Integrar con APIs de compartición social.
+8.  **Pulido de UI/UX y Pruebas:** Refinar la experiencia del MVP.
+
+# Risks and Mitigations (MVP)
+1.  **Selección de API de IA:**
+    *   **Riesgo:** La API elegida es lenta, costosa, tiene mala calidad de transformación o términos de servicio restrictivos.
+    *   **Mitigación:** Investigar y prototipar con múltiples APIs antes de comprometerse. Tener un plan B o estar preparado para cambiar de API si es necesario. Priorizar APIs con buen balance coste/velocidad/calidad para el MVP.
+2.  **Rendimiento de la Transformación:**
+    *   **Riesgo:** El procesamiento de la imagen toma demasiado tiempo, frustrando al usuario.
+    *   **Mitigación:** Optimizar el tamaño de la imagen antes de enviarla a la API (si es posible). Mostrar indicadores de progreso claros. Elegir filtros para el MVP que sean computacionalmente menos intensivos.
+3.  **Costos de API:**
+    *   **Riesgo:** Los costos de la API de IA escalan rápidamente y se vuelven insostenibles si la app gana tracción.
+    *   **Mitigación:** Seleccionar un plan de API que permita un uso gratuito o de bajo costo para el MVP. Monitorear de cerca el uso. Tener un plan de monetización (post-MVP) para cubrir costos futuros.
+4.  **Calidad de Filtros Iniciales:**
+    *   **Riesgo:** Los filtros del MVP no son lo suficientemente divertidos o "virales".
+    *   **Mitigación:** Iterar rápidamente en el diseño de los filtros. Obtener feedback temprano. Enfocarse en la "absurdidad exagerada" incluso con transformaciones simples.
+5.  **Complejidad Inesperada en Integración:**
+    *   **Riesgo:** Dificultades técnicas no previstas al integrar la cámara, la detección facial o la API de IA.
+    *   **Mitigación:** Realizar pruebas de concepto (PoCs) para las integraciones clave lo antes posible. Asignar tiempo para la investigación y resolución de problemas técnicos.
+
+# Appendix
+*   Investigación comparativa de APIs de IA (a realizar).
+*   Bocetos iniciales de la UI (a realizar). 
